@@ -13,7 +13,6 @@ int main()
     while (1)
     {
         mpz_add_ui(n_org, n_org, 1);
-        gmp_printf("testing: %Zd\n", n_org);
         collatz(n_org);
     }
     
