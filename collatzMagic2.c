@@ -8,7 +8,7 @@ int collatz_condition(mpz_t n, mpz_t n_org);
 int main()
 {
     mpz_t n_org;
-    mpz_init_set_str(n_org, "4", 10);
+    mpz_init_set_str(n_org, "29514791000000000000", 10);
 
     while (1)
     {
@@ -41,7 +41,7 @@ int collatz(mpz_t n_org)
             mpz_addmul_ui(n, n, 2);
             mpz_add_ui(n, n, 1);
         }
-        
+
     }while(collatz_condition(n, n_org));
 
 
