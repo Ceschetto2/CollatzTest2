@@ -8,7 +8,7 @@ int collatz_condition(mpz_t n, mpz_t n_org);
 int main()
 {
     mpz_t n_org;
-    mpz_init_set_str(n_org, "29514791000000000000", 10);
+    mpz_init_set_str(n_org, "29514791000017982242", 10);
 
     while (1)
     {
