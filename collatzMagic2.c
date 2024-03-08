@@ -3,17 +3,29 @@
 #include <stdlib.h>
 
 int collatz(mpz_t n_org);
-int collatz_condition(mpz_t n, mpz_t n_org);
+int collatz_condition(mpz_t n, mpz_t n_org); 
 
 int main()
 {
     mpz_t n_org;
-    mpz_init_set_str(n_org, "29514791015910917382", 10);
+    mpz_init(n_org);
+
+    FILE * fp;
+    fp = fopen("zippero.txt", "r+");
+    if (fp == NULL)
+    {
+        puts("Errore. File non trovato.");
+        exit(1);
+    }
+
+    gmp_fscanf(fp, "%Zd", n_org);
+
 
     while (1)
     {
         mpz_add_ui(n_org, n_org, 1);
-        gmp_printf("testing: %Zd\n", n_org);
+        rewind(fp);
+        if(gmp_fprintf(fp, "%Zd", n_org) == -1) gmp_fprintf("Errore scrittura sul file. testing: %Zd", n_org) ;
         collatz(n_org);
     }
     
