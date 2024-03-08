@@ -44,15 +44,14 @@ int collatz(mpz_t n_org)
     do
     {
 
-        if (!mpz_odd_p(n))
-        {
-            mpz_div_ui(n, n, 2);
-        }
-        else
-        {
-            mpz_addmul_ui(n, n, 2);
-            mpz_add_ui(n, n, 1);
-        }
+        while (!mpz_odd_p(n))
+            mpz_fdiv_q_2exp( n, n, 2);
+        
+        
+        
+        mpz_addmul_ui(n, n, 2);
+        mpz_add_ui(n, n, 1);
+    
 
     }while(collatz_condition(n, n_org));
 
