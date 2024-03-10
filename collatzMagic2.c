@@ -1,12 +1,20 @@
 #include <gmp.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <ncurses.h>
 
 int collatz(mpz_t n_org);
 int collatz_condition(mpz_t n, mpz_t n_org); 
 
 int main()
 {
+    //curses no buffered input
+    initscr();
+    noecho();
+    raw();
+    timeout(0);
+    cbreak();
+
     mpz_t n_org;
     mpz_init(n_org);
 
@@ -19,19 +27,25 @@ int main()
     }
 
     gmp_fscanf(fp, "%Zd", n_org);
+    fclose(fp);
 
-
-    while (1)
+    printw("Premenre un tasto qualsiasi per terminare e salvare\nTesting in corso...\n");
+    while (getch() == EOF)
     {
         mpz_add_ui(n_org, n_org, 1);
-        rewind(fp);
-        if(gmp_fprintf(fp, "%Zd", n_org) == -1) gmp_fprintf("Errore scrittura sul file. testing: %Zd", n_org) ;
+
         collatz(n_org);
     }
-    
 
-
+    endwin();
     
+    fp = fopen("zippero.txt", "r+");
+    if(gmp_fprintf(fp, "%Zd", n_org) == -1) gmp_printf("Errore, non è stato possibile scrivere su file");
+
+    gmp_printf("Ultimo numero controllato: %Zd", n_org);
+
+    return 0;
+ 
 
 }
 
