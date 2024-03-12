@@ -5,31 +5,25 @@
 
 int collatz(mpz_t n_org);
 int collatz_condition(mpz_t n, mpz_t n_org); 
+void printNumOnFile(char* fileName, mpz_t n);
+void readNumFromFile(char* fileName, mpz_t n);
 
 int main()
 {
-    //curses no buffered input
+    //init curses
     initscr();
     noecho();
     raw();
     timeout(0);
-    cbreak();
+    
 
     mpz_t n_org;
     mpz_init(n_org);
 
-    FILE * fp;
-    fp = fopen("zippero.txt", "r+");
-    if (fp == NULL)
-    {
-        puts("Errore. File non trovato.");
-        exit(1);
-    }
+    readNumFromFile("zippero.txt", n_org);
+   
 
-    gmp_fscanf(fp, "%Zd", n_org);
-    fclose(fp);
-
-    printw("Premenre un tasto qualsiasi per terminare e salvare\nTesting in corso...\n");
+    printw("Premenre un tasto qualsiasi per terminare e salvare.\nTesting in corso...\n");
     while (getch() == EOF)
     {
         mpz_add_ui(n_org, n_org, 1);
@@ -37,15 +31,35 @@ int main()
         collatz(n_org);
     }
 
+
+    printNumOnFile("zippero.txt", n_org);
     endwin();
-    
-    fp = fopen("zippero.txt", "r+");
-    if(gmp_fprintf(fp, "%Zd", n_org) == -1) gmp_printf("Errore, non è stato possibile scrivere su file");
 
-    gmp_printf("Ultimo numero controllato: %Zd", n_org);
-
-    return 0;
  
+
+}
+
+void readNumFromFile(char* fileName, mpz_t n)
+{
+    FILE * fp;
+    fp = fopen(fileName, "r+");
+    if (fp == NULL)
+    {
+        puts("Errore. File non trovato.");
+        exit(1);
+    }
+
+    gmp_fscanf(fp, "%Zd", n);
+    fclose(fp);
+}
+
+void printNumOnFile(char* fileName, mpz_t n)
+{
+    FILE * fp;  
+    fp = fopen(fileName, "r+");
+    if(gmp_fprintf(fp, "%Zd", n) == -1) puts("Errore, non è stato possibile scrivere su file");
+
+    gmp_printf("Ultimo numero controllato: %Zd", n);
 
 }
 
