@@ -13,7 +13,7 @@ Questo progetto in C permette di testare numeri interi secondo la congettura di 
 
     Linguaggio: C
 
-    Librerie: (specifica qui, es. GMP se usata)
+    Librerie: GMP
 
     Salvataggio dati: file system locale
 
